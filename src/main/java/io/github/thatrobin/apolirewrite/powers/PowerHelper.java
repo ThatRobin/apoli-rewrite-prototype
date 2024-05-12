@@ -17,15 +17,4 @@ public class PowerHelper {
         }
     }
 
-    public static boolean hasPowerOf(Entity entity, Class<? extends PowerType> clazz) {
-        if(entity == null) return false;
-        MutableBoolean mutableBoolean = new MutableBoolean(false);
-        PowerHelper.forEachPower(entity, (PowerType powerType) -> {
-            if(powerType.getClass().isAssignableFrom(clazz)) {
-                mutableBoolean.setTrue();
-            }
-        });
-        return mutableBoolean.booleanValue();
-    }
-
 }

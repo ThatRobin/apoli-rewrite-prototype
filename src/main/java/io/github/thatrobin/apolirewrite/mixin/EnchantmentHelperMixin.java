@@ -2,6 +2,7 @@ package io.github.thatrobin.apolirewrite.mixin;
 
 import io.github.thatrobin.apolirewrite.Apoli;
 import io.github.thatrobin.apolirewrite.powers.PowerHelper;
+import io.github.thatrobin.apolirewrite.powers.PowerHolderComponent;
 import io.github.thatrobin.apolirewrite.powers.power_types.PowerType;
 import io.github.thatrobin.apolirewrite.utils.EntityLinkedItemStack;
 import net.minecraft.component.ComponentType;
@@ -18,8 +19,8 @@ public class EnchantmentHelperMixin {
     @Inject(method = "hasAnyEnchantmentsWith", at = @At("RETURN"), cancellable = true)
     private static void hasAnyPowersWith(ItemStack stack, ComponentType<?> componentType, CallbackInfoReturnable<Boolean> cir) {
         if(componentType instanceof PowerType powerType) {
-            Apoli.LOGGER.info(PowerHelper.hasPowerOf(((EntityLinkedItemStack)(Object)stack).apoli$getEntity(), powerType.getClass()));
-            cir.setReturnValue(cir.getReturnValue() || PowerHelper.hasPowerOf(((EntityLinkedItemStack)(Object)stack).apoli$getEntity(), powerType.getClass()));
+            Apoli.LOGGER.info(PowerHolderComponent.hasPower(((EntityLinkedItemStack)(Object)stack).apoli$getEntity(), powerType.getClass()));
+            cir.setReturnValue(cir.getReturnValue() || PowerHolderComponent.hasPower(((EntityLinkedItemStack)(Object)stack).apoli$getEntity(), powerType.getClass()));
         }
     }
 
