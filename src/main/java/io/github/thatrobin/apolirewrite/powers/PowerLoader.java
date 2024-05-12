@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Optional;
 
-public class PowerLoader implements SimpleSynchronousResourceReloadListener {
+public class PowerLoader<T extends PowerType> implements SimpleSynchronousResourceReloadListener {
 
     public static final String PATH = "power";
     public static final String EXTENSION = ".json";
@@ -50,7 +50,8 @@ public class PowerLoader implements SimpleSynchronousResourceReloadListener {
                         StringBuilder newId = new StringBuilder(id.getNamespace() + ":" + fixedPath);
                         Identifier powerId = Identifier.tryParse(newId.toString());
                         Apoli.LOGGER.info(newId.toString());
-                        for (Map.Entry<Either<Identifier, String>, PowerType> eitherPowerTypeEntry : corePowerType.getUndefinedMap().entrySet()) {
+                        for (Object object : corePowerType.getUndefinedMap().entrySet()) {
+                            Map.Entry<Either<Identifier, String>, T> eitherPowerTypeEntry = (Map.Entry<Either<Identifier, String>, T>)object;
                             StringBuilder newId2 = new StringBuilder(id.getNamespace() + ":" + fixedPath);
                             if(eitherPowerTypeEntry.getKey().right().isPresent()) {
                                 newId2.append("_").append(eitherPowerTypeEntry.getKey().right().get());

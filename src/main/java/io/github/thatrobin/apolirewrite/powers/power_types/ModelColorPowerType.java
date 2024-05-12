@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import org.jetbrains.annotations.Nullable;
@@ -11,9 +12,10 @@ import org.jetbrains.annotations.Nullable;
 
 @Getter
 @AllArgsConstructor
-public class ModelColorPowerType implements PowerType {
+@NoArgsConstructor
+public class ModelColorPowerType extends PowerType {
 
-    final float red, green, blue, alpha;
+    float red, green, blue, alpha;
 
     public static final Codec<ModelColorPowerType> CODEC = RecordCodecBuilder.create(inst ->
             inst.group(Codec.FLOAT.optionalFieldOf("red", 1.0f).forGetter(ModelColorPowerType::getRed),
@@ -26,11 +28,6 @@ public class ModelColorPowerType implements PowerType {
     @Override
     public Codec<ModelColorPowerType> getCodec() {
         return CODEC;
-    }
-
-    @Override
-    public PacketCodec<? super RegistryByteBuf, ModelColorPowerType> getPacketCodec() {
-        return null;
     }
 
 }

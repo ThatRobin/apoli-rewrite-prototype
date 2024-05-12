@@ -4,19 +4,22 @@ import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.thatrobin.apolirewrite.Apoli;
+import io.github.thatrobin.apolirewrite.ApoliRegistries;
 import io.github.thatrobin.apolirewrite.powers.power_types.PowerType;
 import io.github.thatrobin.apolirewrite.utils.AttachmentSyncer;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.minecraft.entity.Entity;
+import org.apache.logging.log4j.core.Core;
 
 import java.util.*;
 
 public record PowerHolderComponent(Map<PowerType, PowerData> powers) {
 
     public static final Codec<PowerHolderComponent> CODEC = RecordCodecBuilder.create(inst ->
-            inst.group(Codec.list(Codec.pair(PowerType.getPowerTypeCodec(), PowerData.CODEC)).fieldOf("powers").forGetter(PowerHolderComponent::getListPair))
+            inst.group(Codec.list(Codec.pair(ApoliRegistries.POWER_TYPES.getCodec(), PowerData.CODEC)).fieldOf("powers").forGetter(PowerHolderComponent::getListPair))
                     .apply(inst, (listPair) -> new PowerHolderComponent(getMap(listPair))));
+
 
     public static <T extends PowerType> List<T> getPowers(Entity entity, Class<T> type) {
         PowerHolderComponent component = entity.getAttachedOrCreate(PowerHolderComponent.POWERS);
@@ -64,8 +67,8 @@ public record PowerHolderComponent(Map<PowerType, PowerData> powers) {
     }
 
     public static boolean hasPower(Entity entity, Class<? extends PowerType> clazz) {
-        return entity.getAttachedOrCreate(PowerHolderComponent.POWERS).powers().keySet().stream()
-                    .anyMatch(power -> clazz.isAssignableFrom(power.getClass()));
+        if(entity == null) return false;
+        return !PowerHolderComponent.getPowers(entity, clazz).isEmpty();
     }
 
     public void sync(Entity entity) {

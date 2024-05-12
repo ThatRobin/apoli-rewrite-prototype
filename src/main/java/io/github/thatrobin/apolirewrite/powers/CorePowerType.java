@@ -1,6 +1,7 @@
 package io.github.thatrobin.apolirewrite.powers;
 
 import com.mojang.datafixers.util.Either;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -16,19 +17,19 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 @Getter
-public class CorePowerType implements PowerType {
+public class CorePowerType<T extends PowerType> extends PowerType {
 
     private final Text name, description;
-    private final Map<Either<Identifier,String>, PowerType> undefinedMap;
-    private Map<Identifier, PowerType> subPowers;
+    private final Map<Either<Identifier,String>, T> undefinedMap;
+    private Map<Identifier, T> subPowers;
 
     public static final Codec<CorePowerType> CODEC = RecordCodecBuilder.create(instance -> instance.group(((MapCodec) TextCodecs.CODEC.fieldOf("name")).forGetter((power) -> ((CorePowerType)power).name),
             ((MapCodec) TextCodecs.CODEC.fieldOf("description")).forGetter((power) -> ((CorePowerType)power).description),
-            Codec.unboundedMap(Codec.either(Apoli.CODEC, Codec.STRING), PowerType.getPowerTypeCodec()).fieldOf("powers").forGetter((CorePowerType::getUndefinedMap))).apply(instance, (nameText, descText, powers) -> {
+            Codec.unboundedMap(Codec.either(Apoli.CODEC, Codec.STRING), PowerType.getPowerTypeCodec()).fieldOf("powers").forGetter((t) -> t.getUndefinedMap())).apply(instance, (nameText, descText, powers) -> {
         return new CorePowerType((Text) nameText, (Text) descText, (Map<Either<Identifier, String>, PowerType>) powers);
     }));
 
-    public CorePowerType(Text nameText, Text descText, Map<Either<Identifier, String>, PowerType> powers) {
+    public CorePowerType(Text nameText, Text descText, Map<Either<Identifier, String>, T> powers) {
         this.name = nameText;
         this.description = descText;
         this.undefinedMap = powers;
@@ -61,8 +62,4 @@ public class CorePowerType implements PowerType {
         return CorePowerType.CODEC;
     }
 
-    @Override
-    public PacketCodec getPacketCodec() {
-        return null;
-    }
 }

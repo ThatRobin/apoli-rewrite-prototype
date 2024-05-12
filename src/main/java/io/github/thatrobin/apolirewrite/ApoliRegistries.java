@@ -8,7 +8,7 @@ import net.minecraft.registry.RegistryKey;
 
 public class ApoliRegistries {
 
-    public static final Registry<Codec<? extends PowerType>> POWER_TYPES = create(ApoliRegistryKeys.POWER_TYPE);
+    public static final Registry<PowerType> POWER_TYPES = create(ApoliRegistryKeys.POWER_TYPE);
 
     private static <T> Registry<T> create(RegistryKey<Registry<T>> registryKey) {
         return FabricRegistryBuilder.createSimple(registryKey).buildAndRegister();

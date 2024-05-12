@@ -8,15 +8,16 @@ import io.github.thatrobin.apolirewrite.powers.power_types.ModelColorPowerType;
 import io.github.thatrobin.apolirewrite.powers.power_types.PowerType;
 import net.minecraft.registry.Registry;
 
+import java.util.function.Supplier;
+
 public class PowerTypes {
 
-    public static final Codec<ElytraFlightPowerType> ELYTRA_FLIGHT = PowerTypes.register("elytra_flight", ElytraFlightPowerType.CODEC);
+    public static final ElytraFlightPowerType ELYTRA_FLIGHT = PowerTypes.register("elytra_flight", ElytraFlightPowerType::new);
 
-    public static final Codec<ModelColorPowerType> MODEL_COLOR = PowerTypes.register("model_color", ModelColorPowerType.CODEC);
+    public static final ModelColorPowerType MODEL_COLOR = PowerTypes.register("model_color", ModelColorPowerType::new);
 
-    private static <T extends PowerType> Codec<T> register(String id, Codec<T> codec) {
-        Apoli.LOGGER.info(Apoli.identifier(id));
-        return Registry.register(ApoliRegistries.POWER_TYPES, Apoli.identifier(id), codec);
+    private static <T extends PowerType> T register(String id, Supplier<T> powerTypeSupplier) {
+        return Registry.register(ApoliRegistries.POWER_TYPES, Apoli.identifier(id), powerTypeSupplier.get());
     }
 
     public static void init() {}
