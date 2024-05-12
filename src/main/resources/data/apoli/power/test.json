@@ -1,0 +1,14 @@
+{
+	"name": "Godly Grace",
+	"description": "You can lift yourself off the ground without wings, as your armour binds to your skin.",
+	"powers": {
+		"not_apoli:test": {
+			"type": "apoli:elytra_flight",
+			"render_elytra": true
+		},
+		"two": {
+			"type": "apoli:elytra_flight",
+			"render_elytra": true
+		}
+	}
+}

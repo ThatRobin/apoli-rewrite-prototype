@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "apoli-rewrite",
+	"version": "${version}",
+	"name": "apoli-rewrite",
+	"description": "",
+	"authors": [],
+	"contact": {
+		"repo": "https://github.com/robin/apoli-rewrite"
+	},
+	"license": "MIT",
+	"icon": "assets/apoli-rewrite/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"io.github.thatrobin.apolirewrite.client.ApoliClient"
+		],
+		"main": [
+			"io.github.thatrobin.apolirewrite.Apoli"
+		]
+	},
+	"mixins": [
+		"apoli-rewrite.mixins.json"
+	],
+	"accessWidener": "apoli.accesswidener",
+	"depends": {
+		"fabricloader": ">=${loader_version}",
+		"fabric": "*"
+	}
+}

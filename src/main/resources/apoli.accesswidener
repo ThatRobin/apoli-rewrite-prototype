@@ -1,0 +1,4 @@
+accessWidener   v1  named
+
+accessible method net/minecraft/command/argument/ArgumentTypes register (Lnet/minecraft/registry/Registry;Ljava/lang/String;Ljava/lang/Class;Lnet/minecraft/command/argument/serialize/ArgumentSerializer;)Lnet/minecraft/command/argument/serialize/ArgumentSerializer;
+accessible field net/minecraft/component/DataComponentTypes CACHE Lnet/minecraft/util/dynamic/CodecCache;

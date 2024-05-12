@@ -1,0 +1,4 @@
+{
+	"commands.apoli.list.pass": "Entity %s has %s power%s: [%s]",
+	"commands.apoli.list.sources": "Source%s: [%s]"
+}
